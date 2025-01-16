@@ -1,270 +1,240 @@
-# Your Product Name
-> Your Group Name
+# PresentPal
+## Tech Turtles
 
-> [!NOTE]
-> This repo has been shared with your group. Use it to develop your group project.
->
-> Your group will have received two identical repos - one for your project's back-end, and another for the front-end. Although they are identical right now they are about to diverge, because you'll be using one to create a DRF project and the other to create a React project!
 
-> [!IMPORTANT]  
-> Use this `README.md` file to document your MVP using Markdown. Feel free to duplicate the product description aspects between the front-end README and the back-end README, but consider splitting out the technical design aspects to the specific repo that implements them. 
->
-> An example MVP spec (containing both front- and back-end descriptions) is set out below - you should replace it with your own content! (Remember to delete any "admonition" blocks like this `IMPORTANT` section, the `CAUTION` and `NOTE` sections, etc.)
-
-> [!CAUTION]  
-> In order to set up your project, **one** member of the group should clone this repo down, initialise a new React/DRF project, commit, and push. 
->
-> If more than one group member performs the setup, you'll have Git problems. Check out [the Git collaboration content](https://github.com/SheCodesAus/PlusLessonContent?tab=readme-ov-file#26---group-project) for more on how to use Git as a team.
-
-## Table of Contents
-
-- [Your Product Name](#your-product-name)
-  - [Table of Contents](#table-of-contents)
+- [PresentPal](#presentpal)
+  - [Tech Turtles](#tech-turtles)
+  - [Project Overview](#project-overview)
   - [Mission Statement](#mission-statement)
   - [Features](#features)
+    - [All Features](#all-features)
+    - [Must haves](#must-haves)
+    - [Nice to haves - First Priority](#nice-to-haves---first-priority)
+    - [Nice to haves - Other](#nice-to-haves---other)
     - [Summary](#summary)
     - [Users](#users)
-    - [Sticky Notes](#sticky-notes)
-    - [Collections](#collections)
+    - [Christmas List](#christmas-list)
     - [Pages/Endpoint Functionality](#pagesendpoint-functionality)
-    - [Nice To Haves](#nice-to-haves)
   - [Technical Implementation](#technical-implementation)
     - [Back-End](#back-end)
     - [Front-End](#front-end)
-    - [Git \& Deployment](#git--deployment)
+    - [Source Code Management](#source-code-management)
+    - [Deployment](#deployment)
   - [Target Audience](#target-audience)
+  - [User Stories](#user-stories)
+    - [Gift Giver User Stories](#gift-giver-user-stories)
+    - [Gift Recipient User Stories](#gift-recipient-user-stories)
   - [Back-end Implementation](#back-end-implementation)
     - [API Specification](#api-specification)
     - [Object Definitions](#object-definitions)
       - [Users](#users-1)
-      - [Sticky Notes](#sticky-notes-1)
+      - [Lists](#lists)
+      - [Items](#items)
+      - [Recipients](#recipients)
     - [Database Schema](#database-schema)
-  - [Front-end Implementation](#front-end-implementation)
-    - [Wireframes](#wireframes)
-      - [Home Page](#home-page)
-      - [Collection List Page](#collection-list-page)
-    - [Logo](#logo)
-    - [Colours](#colours)
-      - [Primary](#primary)
-      - [Secondary](#secondary)
-    - [Font](#font)
+
+
+## Project Overview
+PresentPal is a web application designed to streamline gift planning and purchasing, starting with a focus on Christmas shopping and with the potential to expand into birthday and other event planning. The platform aims to eliminate the stress of last-minute shopping and provide a more organised and thoughtful approach to gift-giving.
 
 
 ## Mission Statement
+PresentPal’s mission is to simplify holiday/event gift shopping by providing a seamless platform where users can create, organise and share personalised gift lists. Whether for personal use or to help find the perfect gift for loved ones, PresentPal enables easy tracking of items and their sources, making gift-giving more thoughtful, efficient and enjoyable.
 
-> [!NOTE]  
-> What is the purpose of your project? (approx 100-200 words). Example below.
-
-Win-Wall is an online collaboration tool that provides organisers of SheCodes workshops as well as their attendees a visual workspace where they can add digital sticky notes to a blank digital wall in order to share wins with others during live events.
-This tool offers an unlimited number of digital win walls which are organised by event collection in order to facilitate collaboration during live events and easily bring all attendees’ wins to light in real time.
-Win-Wall comes packed full of features such as the ability to share a unique digital win wall to a live audience, easily approve and export win wall messages to upload on a WordPress website, manage user roles to give event organisers and attendees access to different functionalities, and many more.
 
 ## Features
 
-> [!NOTE]  
-> Tell me the features your website will and will not have. Give detailed explanations, this is where you define the scope of your project. Example below.
+### All Features
+* Creation of user account
+* Log in/Log out
+* Ability to create/edit/delete list
+* Add item details and assign to a recipient on the list
+* Ability to update the status of individual items
+* Accessibility for colour blind users
+* Management of budget (total spent)
+* Custom 404 page
+* Responsive design
+
+### Must haves
+* __Homepage__
+  * Anyone can view the website
+  * Users can create an account. Create account page will have email, first name, last name and password fields
+  * Users can create a list if they are logged in
+  
+* __User Profile Management and Permissions__
+  * Users can log in or log out of their account
+  * Login page will have full name and password fields
+  * Each user category will have their set permissions they can view
+  
+* __List Page__
+   * Admin can create or delete any of the lists
+   * Users can create a list, but can only edit/delete a list they have created
+   * Has space to record and update gift details (product name, price, store/link or location)
+   * Status of item (complete/incomplete)
+
+### Nice to haves - First Priority
+1. Priority of item, e.g. when child adds multiple items
+2. Status of item (not ordered, ordered but hasn't arrived)
+3. Due date when gift is required by
+4. Item count - total items
+
+### Nice to haves - Other
+* Secure sharing of list, e.g. User wants to send list to children to add ideas
+* Grouping of items
+* Ability to print list
+* QR code generation
+* Budget by category
+* Birthday list integration
+* Gift suggestions
+* Sale notifications
+* About page
+* Forgot password on login page
 
 
 ### Summary 
-Provide Guest users ability to post sticky notes to a live event board. Once posted, users can view all posts for live event. Admin and approver access will allow events boards to be created, sticky notes to be edited, approved and exported.
+Provide users the ability to create lists of gifts they need to purchase. Once items are listed, users can edit/delete individual items and update each item's status. Only Superuser can view all lists and individual users can view the lists created by them. 
 
 ### Users
 
 | Type               | Access                                                                                                                                                                                                                                                                                             | Role type assignment                                |
 | :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------- |
-| Superuser or admin | <br> - All access   <br> - Can log in  <br> - Can log out  <br> - Create and manage events  <br> - Create and manage collections  <br> - Create and manage other users  <br> - Approve, archive and edit notes  <br> - Export notes as CSV  <br> - Can See and edit their details via profile page | Kate                                                |
-| Approver           | <br> - Can log in  <br> - Can log out  <br> - Approve, archive and edit notes  <br> - Can See and edit their details via profile page                                                                                                                                                              | Mentors, volunteers, shecodes11507 staff            |
-| Guest              | <br> - Create post it notes  <br> - Submit post it notes  <br> - View Live event board with all post it notes  <br> - can post with and without including their name                                                                                                                               | Public: Users who attend events, workshops, courses |
+| Superuser or admin | - All access   <br> - Can log in and log out  <br> - Create and manage lists  <br> - Create and manage other users  <br> - Create and manage other users  <br> - Can see and edit their details via profile page  <br> - Update status of items on list  <br> - Delete a list | Private: Shelley Behen                                                |
+| User      | - Can log in and can log out  <br> - Create and edit items on their list  <br> - Delete item from their list                                                                                                                                     | Public: Users who want to create a gift shopping list |
 
-### Sticky Notes
+                                                                                                                               
+
+### Christmas List
 
 | Feature                                        | Access                                                                                                                                                                                                           | Notes/Conditions                                                                                              |
 | :--------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------ |
-| Create                                         | Can be created by anyone with URL                                                                                                                                                                                | <br> - Limit length of sticky note text  <br> - option to add hashtag (TBC: as main text or additional field) |
-| Post                                           | Post as Guest                                                                                                                                                                                                    | <br> - Submits Sticky note to Live event board                                                                |
-| View                                           | Guests, Approvers and Admin can view posts via Live event board Admin and Approvers can view once status updated from Live                                                                                       |                                                                                                               |
-| Edit                                           | Can be edited by Admin and Approvers                                                                                                                                                                             | <br> - Edit sticky note text, eg: for spelling errors before Status is set to approved                        |
-| Statuses: Live, Unapproved, Approved, Archived | <br> - Auto status of notes will be ‘live’ based on linked event  <br> - Auto status of notes will be unapproved based on closure of linked event  <br> - Update to Approved and Archived by Admin and Approvers |                                                                                                               |
-| Export                                         | <br> - Export as Admin only                                                                                                                                                                                      | <br> - CSV file  <br> - Format: collection, event, sticky note text                                           |
-| Flag- Is Exported                              | <br> - Auto flag based on whether Admin has exported the sticky note                                                                                                                                             | <br> - Boolean                                                                                                |
-| Link to Collection                             | <br> - Controlled by Admin                                                                                                                                                                                       | <br> - Based on type of event, eg: shecodes flash, plus, other event types.                                   |
-| Link to Event                                  | <br> - Auto link based on event URL  <br> - Link to event can be edited by Admin                                                                                                                                 |                                                                                                               |
-| Link to Approver                               | <br> - Controlled by Admin and Approver who creates the event                                                                                                                                                    | <br> - Approver is User who is managing or associated with admin of the event                                 |
+| Create                                         | Can be created by anyone with a registered account                                                                                                                        | User must be logged in |
+| View                                           | Admin and creator of the list can view list                                                                                      |                                                                                                               |
+| Edit                                           | Admin and creator of the list can edit list                                                                                      |  User must be logged in                                                                                                             |
+| Delete                                         | Can be deleted by Admin and creator of list |                                                                                                               |
 
-### Collections
-
-| Feature                           | Access                     | Notes/Conditions           |
-| :-------------------------------- | :------------------------- | :------------------------- |
-| Assign events to a collection     | <br> - Based on event type |                            |
-| Assign approver to a collection   | <br> - admin               |                            |
-| Default event board live duration | <br> - Admin               | <br> - Based on event type |
-| View event boards by collection   | <br> - Admin, Approver     |                            |
-| Export notes by Collection        | <br> - Admin               |                            |
+<br>
 
 ### Pages/Endpoint Functionality
 
-| Endpoint              | functionality                                                                                                                                                                     | comments                                                                                         |
-| :-------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------- |
-| Create and post notes | <br> - Available to anyone with URL   <br> - Add sticky notes   <br> - Post sticky notes                                                                                          | <br> - Sticky note ‘feel’ is preferred  <br> - Easy to read and accessible  <br> - Good contrast |
-| Event board           | <br> - Once note is posted, redirect to live session  notes  <br> - Able to post more notes (redirect back or add directly?)  <br> - Live session ends at midnight – day of event | <br> - view live notes  <br> - search notes by text/hashtag                                      |
-| Admin page            | All admin functions  <br> - can also create another admin account                                                                                                                 | <br> - Requires auth  <br> - initial admin created by DB                                         |
-| Register as Approver  | <br> - users can register as approvers  <br> - once registered, approver can log in                                                                                               | Requires shecodes email address to be used                                                       |
-| Approver page         | Approver functions                                                                                                                                                                | Requires auth Easy to read, accessible, easy to use for new users                                |
-| Profile page          | <br> - All registered users  <br> - Can view their personal info  <br> - Can update their info                                                                                    | Requires auth                                                                                    |
-
-### Nice To Haves
-
-- Register during or after event; Sign up for additional events: Email address, Name, Event
-- History of my own notes as Registered user
-- Events I have registered for as Registered user
-- Be able to edit my own notes – as Registered user but only until its been approved
-- Bulk update sticky note status
-- QR code generation 
-- Use QR codes to access event as guest
-
+| Endpoint                          | Functionality              | Comments          |
+| :-------------------------------- | :------------------------- | :------------------------- |
+| Create and post list              |  - Available to user who created list         | - Easy to read and accessible <br> - Good contrast |
+| Admin page |  - All admin functions <br> - Can also create another admin account        | - Requires auth <br> - Initial admin created by DB                            |
+| User page | - Users can view all lists created <br> - Users can create new list  |  |
+| Home page  |  - Button to create list or log in button if not logged in <br> - Description about app    |                            |
+     
+     
 ## Technical Implementation
-
-> [!NOTE]  
-> What languages and frameworks will you be using? What kind of database will you be using? How will you deploy the website? Example Below.
 
 ### Back-End
 
-- Django / DRF API
+- Django/DRF API
 - Python
 
 ### Front-End
 
-- React / JavaScript
+- React/JavaScript
 - HTML/CSS
 
-### Git & Deployment
-- Heroku
-- Netlify
-- GitHub
+### Source Code Management
+- Git
 
-This application's back-end will be deployed to Heroku. The front-end will be deployed separately to Netlify.
- 
-We will also use Insomnia to ensure API endpoints are working smoothly (we will utilise a local and deployed environment in Insomnia).
+### Deployment
+The application's front-end will be deployed to Netlify. The back-end and DB will be deployed to Heroku.
+<br> <br> We will also use Insomnia to ensure API endpoints are working smoothly (we will utilise a local and deployed environment in Insomnia).
 
 ## Target Audience
+- Gift Giver (Primary User)
+- Gift Recipient (Secondary User)
+  
+PresentPal caters to two key groups in the gift-giving process. The primary users are busy gift-givers, often balancing work and family, who want to organise their holiday shopping efficiently. They use the platform to create gift lists, track recipients, and monitor their shopping progress, reducing stress and last-minute hassles.
 
-> [!NOTE]  
-> Who is the website for? (approx 100 words). Example below.
+The secondary users are gift recipients, who can join in by creating their own wishlists when invited by a gift-giver. This collaborative approach ensures gifts are thoughtful and easier to choose, while still keeping the surprise alive during the holiday season.
+  
+## User Stories
 
-This website has two major target audiences: She Codes ‘Leaders, Volunteers & Mentors’, and ‘She Coders’ joining the one-day/short-term workshops. 
+### Gift Giver User Stories
+__List Management__
 
-**She Codes Leaders, Volunteers and Mentors** (administrators) will use this website to assign one-day workshop coders to specific events and/or collections where they can fill-out a “sticky note” win and paste it on the WinsWall. The administrators will then be able to sort, authorise and delete these stickies and easily download the data in a CSV file. This website is targeted towards this group in order to automate a normally menial task.
+1. As a gift giver, I want to create a new gift list so that I can organise my Christmas shopping.
+2. As a gift giver, I want to add recipients to my list so that I can plan gifts for everyone.
+3. As a gift giver, I want to add gift details (name, price, store link/location, notes) so that I can track what to buy.
+4. As a gift giver, I want to mark items as purchased so that I can track my shopping progress.
+5. As a gift giver, I want to see the total cost of all gifts so that I can manage my budget.
+6. As a gift giver, I want to keep the list private from each recipient so that gifts remain a surprise.
 
-**She Coders** (laypeople) will use this website to post their Win on a WinWall board, keep track of what events they’ve attended and also view previously written wins. This website is targeted to this group in order to prevent loss of paper data (physical sticky notes) and also make the WinsWall more interactive.
+__Sharing and Collaboration (stretch goal)__
+
+6. As a gift giver, I want to invite recipients to edit their gift lists so that I know what they want.
+7. As a gift giver, I want to share my list with family members so that we can coordinate gift buying. 
+8. As a gift giver, I want to keep gift details private from recipients so that surprises aren't spoiled.
+
+__Mobile Experience__
+
+9. As a gift giver, I want to access my lists on a mobile device so that I don’t always have to turn on my laptop.
+10. As a gift giver, I want the website to load quickly so that I can check lists efficiently.
+
+### Gift Recipient User Stories
+1. As a gift recipient, I want to add items to my gift list so that I receive gifts I'll enjoy.
+2. As a gift recipient, I want to edit my gift list so that I can keep it up to date.
 
 ## Back-end Implementation
 ### API Specification
 
 | HTTP Method | URL                                 | Purpose                                                                                                                                  | Request Body                                                                                                       | Successful Response Code | Authentication and Authorization                      |
 | :---------- | :---------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------- | :----------------------- | :---------------------------------------------------- |
-| POST        | /login                              | Allow users to log in                                                                                                                    | ““Username”:”string”, “password”:”string”                                                                          | 200                      | Token auth                                            |
-| POST        | /logout                             | Allow users to log out ( end active session)                                                                                             | ““Username”:”string”, “password”:”string”                                                                          | 200                      | Will clear user log in session \- remove stored token |
-| POST        | /Register                           | Create new student or approver user                                                                                                      | “Username”:”string”, “FullName”: “string” “Email”:”string”,”Password”:”string”, ”Password2”:”string”,              | 201                      | Admin                                                 |
-| PUT         | /Profile/ID                         | Edit user                                                                                                                                | “Username”:”string”, “FullName”: “string” “Email”:”string”, “Avatar”:”string”,  “Bio”:”string”, “Socials”:”string” | 200                      | Admin, approver or student with matching ID           |
-| GET         | /Profile/ID                         | View User profile                                                                                                                        | NA                                                                                                                 | 200                      | Any                                                   |
-| DELETE      | /User/ID                            | Delete user                                                                                                                              | NA                                                                                                                 | 204                      | Admin, approver or student with matching ID           |
-| POST        | /EventCollection                    | Create new Event Collection                                                                                                              | “Title”:”string”, “IsExported”:”boolean” “Approver”: integer                                                       | 201                      | Admin                                                 |
-| PUT         | /EventCollection/Id                 | Update Event collection                                                                                                                  | “Title”:”string”, “IsExported”:”boolean”                                                                           | 200                      | Admin, Approver linked to event?                      |
-| DELETE      | /EventCollection/Id                 | Delete Event collection                                                                                                                  | NA                                                                                                                 | 204                      | Admin                                                 |
-| POST        | /EventBoard/                        | Create new Event board                                                                                                                   | “Title”: “string”, “StartDate”:”datetime”, “EndDate:”datetime”                                                     | 201                      | Admin, approvers                                      |
-| PUT         | /EventBoard/ID                      | Update Event board                                                                                                                       | “Title”: “string”, “StartDate”:”datetime”, “EndDate:”datetime”                                                     | 200                      | Admin, approvers                                      |
-| DELETE      | /EventBoard/ID                      | Delete Event board                                                                                                                       | NA                                                                                                                 | 204                      | Admin or author of event                              |
-| GET         | /EventBoard/ID                      | Get Event board details                                                                                                                  | NA                                                                                                                 | 200                      | Open access                                           |
-| POST        | /stickyNote/                        | Create a new sticky note as Guest user                                                                                                   | “WinComment”:”string”                                                                                              | 201                      | Open access                                           |
-| GET         | /stickyNotes/?Status=Live\&Event.ID | Get Sticky notes for an event  Use query params to filter by event ID and Status                                                         | NA                                                                                                                 | 200                      | Open access                                           |
-| GET         | /stickyNotes/?Event.ID              | Get Sticky notes for an event                                                                                                            | NA                                                                                                                 | 200                      | Admin, approvers                                      |
-| GET         | /stickyNotes/                       | Export sticky notes as CSV (eg:response.setContentType("text/csv")) Can optionally filter by: event ID, Status, isexported, collectionId | NA                                                                                                                 | 200                      | Admin                                                 |
-| PUT         | /stickyNotes/ID                     | Edit sticky note, update status of sticky note to Approved or Archived                                                                   | “WinComment”:”string”                                                                                              | 200                      | Admin, approvers                                      |
-| POST        | /StickyStatus                       | Create available statuses for stickyNotes                                                                                                | “StatusName”:”string”                                                                                              | 201                      | Admin                                                 |
-| GET         | /StickyStatus                       | Get all statuses                                                                                                                         | NA                                                                                                                 | 200                      | Admin                                                 |
+| POST        | /login                              | Allow users to log in                                                                                                                    | "Email”:”string", "Password”:”string”                                                                          | 200                      | Token auth                                            |
+| POST        | /logout                             | Allow users to log out ( end active session)                                                                                             | “Email”:”string”, “Password”:”string”                                                                          | 200                      | Will clear user log in session \- remove stored token |
+| POST        | /register                           | Create new user                                                                                                      | "First name":”string”, "Last name": “string” “Email”:”string”,”Password”:”string”,              | 201                      | Any                                                 |
+| PUT         | /profile/id                         | Edit user profile                                                                                                                                | "First name":”string”, "Last name": “string” “Email”:”string”,”Password”:”string”,    | 200                      | Admin       |
+| GET         | /users                     | View all users profiles                                                                                                                 | NA                                                                                                                 | 200                      | Admin                                                   |
+| DELETE      | /user/id                           | Delete user                                                                                                                              | NA                                                                                                                 | 204                      | Admin          |
+| GET      | /list/id                           | View list                                                                                                                              | NA                                                                                                                 | 200                      | Owner of list, must be logged in          |
+| POST        | /lists                  | Create list                                                                                                            | “List name”:”string”, “Description”:"string", "Budget": "integer", "Recipients": "string",                                                       | 201                      | Owner of list, must be logged in                                                 |
+| PUT         | /list/id             | Update list                                                                                                                | ““List name”:”string”, “Description”:"string", "Budget": "integer", "Recipients": "string",                                                                         | 201                      | Owner of list, must be logged in                        |
+| DELETE      | /list/id              | Delete list                                                                                                                 | NA                                                                                                                 | 204                      | Owner of list, must be logged in                                                   |
 
 ### Object Definitions
-
-> [!NOTE]  
-> Define the actual objects that your API returns. The example GET method above says it returns “all projects”, so we need to define what a “project” looks like. Example below.
 
 #### Users
 | Field              | Data type |
 | :----------------- | :-------- |
-| *User\_ID (PK)*    |           |
-| *Username*         | string    |
-| FullName           | string    |
-| *Email*            | string    |
-| *Password*         | string    |
-| *Password2*        | string    |
-| Auth\_ID (FK)      | integer   |
-| StickyNoteId (FK)  | integer   |
-| Event\_Id (FK)     | integer   |
-| Collection\_Id(FK) | integer   |
-| Avatar             | string    |
-| Bio                | string    |
-| SocialLink         | string    |
+| User\_ID (PK)      | integer   |
+| First Name         | string    |
+| Last Name          | string    |
+| Email (unique)     | string    |
+| Password           | string    |
+| Date created       | datetime  |
 
-#### Sticky Notes
+#### Lists
 | Field                   | Data Type |
 | :---------------------- | :-------- |
-| Sticky\_ID (PK)         | integer   |
-| WinComment              | string    |
-| Guest                   | boolean   |
-| UserId (FK)             | integer   |
-| Event\_Id (FK)          | integrer  |
-| Collection\_Id (FK)     | integrer  |
-| Sticky\_Status\_ID (FK) | integrer  |
+| List\_ID (PK)           | integer   |
+| List Name               | string    |
+| Description             | string    |
+| Budget                  | integer   |
+| User\_Id                | integer   |
 
-> [!NOTE]  
-> ... etc
+#### Items
+| Field                   | Data Type |
+| :---------------------- | :-------- |
+| Item\_ID (PK)           | integer   |
+| Item Name               | string    |
+| Cost                    | integer   |
+| Where to buy            | URL       |
+| Notes                   | string    |
+| Status (purchased   )   | boolean   |
+| Recipient\_ID           | integer   |
+
+#### Recipients
+| Field                   | Data Type |
+| :---------------------- | :-------- |
+| Recipient\_ID (PK)      | integer   |
+| Name                    | string    |
+| List/_ID                | integer   |
+
+
 
 ### Database Schema
-> [!NOTE]  
-> Insert an image of your database schema (could be a photo of a hand-drawn schema or a screenshot of a schema created using a tool such as ​​https://drawsql.app/). Example below.
-
 ![Our database schema](./img/schema.png)
 
-## Front-end Implementation
-
-### Wireframes
-
-> [!NOTE]  
-> Insert image(s) of your wireframes (could be a photo of hand-drawn wireframes or a screenshot of wireframes created using a tool such as https://www.mockflow.com/).
-
-See all wireframes and how Admins, Approvers and Students would see the Win Wall website: https://www.figma.com/file/cvP0Kc7lAX39Fvo12C5aLa/Win-Wall?node-id=22%3A1345 
-
-#### Home Page
-![](./img/homepage.png)
-
-#### Collection List Page
-![](./img/listpage.png)
-
-> [!NOTE]  
-> etc...
-
-### Logo
-![](./img/logo.png)
-
-### Colours
-#### Primary
-
-![](./img/primary.png)
-
-#### Secondary
-
-![](./img/secondary.png)
-
-### Font
-
-(We will create a ‘highlight-text’ font style in CSS with the glow effect as per the above - to use on hero section)
-Raleway
-Google fonts:
-
-```css
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&display=swap');
-font-family: 'Raleway', sans-serif;
-```
-(When Raleway is not available the standard font to be used is the Calibri font family)
-
-![](./img/fonts.png)
