@@ -1,6 +1,7 @@
 # PresentPal
 ## Tech Turtles
 
+An app to streamline gift giving
 
 - [PresentPal](#presentpal)
   - [Tech Turtles](#tech-turtles)
