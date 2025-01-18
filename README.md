@@ -240,6 +240,7 @@ __Mobile Experience__
 | Recipient\_ID (PK)      | integer   |
 | Name                    | string    |
 | List/_ID                | integer   |
+| Code                    | string    |
 
 
 
