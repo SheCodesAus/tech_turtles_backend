@@ -11,6 +11,6 @@ class List(models.Model):
     user_id = models.ForeignKey(
     get_user_model(),
     on_delete=models.CASCADE,
-    related_name='user_id',
+    related_name='owner',
     null=True  
 )
