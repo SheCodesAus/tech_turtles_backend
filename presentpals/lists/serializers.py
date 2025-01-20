@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from .models import Lists
+from django.apps import apps
 
 class ListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Lists
+        model = apps.get_model('lists.List')
         fields = '__all__'
