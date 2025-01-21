@@ -7,5 +7,5 @@ class RecipientSerializer(serializers.ModelSerializer):
         model = apps.get_model('recipients.Recipient')
         fields = '__all__'
 
-class RecipientDetailSerializer(serializers.ModelSerializer):
+class RecipientDetailSerializer(RecipientSerializer):
     items = ItemSerializer(many=True, read_only=True)
