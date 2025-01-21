@@ -7,9 +7,8 @@ class List(models.Model):
     budget = models.IntegerField()
     is_open = models.BooleanField()
     date_created = models.DateTimeField(auto_now_add=True)
-    user_id = models.ForeignKey(
-    get_user_model(),
-    on_delete=models.CASCADE,
-    related_name='owner',
-    null=True  
+    owner = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='owned_lists', 
     )
