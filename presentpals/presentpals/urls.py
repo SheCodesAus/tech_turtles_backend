@@ -22,4 +22,6 @@ urlpatterns = [
     path('', include('lists.urls')),
     path('', include('recipients.urls')),
     path('', include('items.urls')),  
+    path('', include('users.urls')),
+    path('api-auth/', include('rest_framework.urls')),  
 ]
