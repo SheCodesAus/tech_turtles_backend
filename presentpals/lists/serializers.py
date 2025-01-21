@@ -3,6 +3,8 @@ from django.apps import apps
 from recipients.serializers import RecipientSerializer
 
 class ListSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.id')
+    
     class Meta:
         model = apps.get_model('lists.List')
         fields = '__all__'
