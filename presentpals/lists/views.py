@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
 from .models import List
-from .serializers import ListSerializer
+from .serializers import ListSerializer, ListDetailSerializer, RecipientSerializer
 
 class ListList(APIView):
     def get(self, request):
@@ -36,5 +36,5 @@ class ListDetail(APIView):
 
     def get(self, request, pk):
         list = self.get_object(pk)
-        serializer = ListSerializer(list)
+        serializer = ListDetailSerializer(list)
         return Response(serializer.data)

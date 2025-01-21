@@ -1,4 +1,5 @@
 from django.db import models
+from recipients.models import Recipient
 
 STATUS = [
     ('incomplete', 'Incomplete'),
@@ -17,3 +18,8 @@ class Item(models.Model):
     )
     is_open = models.BooleanField()
     date_created = models.DateTimeField(auto_now_add=True)
+    recipients = models.ForeignKey(
+        'recipients.Recipient',
+        on_delete=models.CASCADE,
+        related_name='items'
+    )
