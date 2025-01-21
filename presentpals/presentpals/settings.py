@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'lists.apps.ListsConfig',
+    'recipients.apps.RecipientsConfig',
+    'items.apps.ItemsConfig',
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
