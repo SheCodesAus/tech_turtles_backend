@@ -15,7 +15,7 @@ class RecipientList(APIView):
     def post(self, request):
         serializer = RecipientSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(list=request.list)
             return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED
