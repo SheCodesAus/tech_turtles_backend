@@ -4,7 +4,7 @@ import uuid
 
 class Recipient(models.Model):
     name = models.CharField(max_length=200)
-    is_open = models.BooleanField()
+    is_open = models.BooleanField(default=True)
     date_created = models.DateTimeField(auto_now_add=True)
     list = models.ForeignKey(
         'lists.List',
