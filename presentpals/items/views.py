@@ -15,7 +15,7 @@ class ItemList(APIView):
     def post(self, request):
         serializer = ItemSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save(recipient=request.recipient)
+            serializer.save()
             return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED
