@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
 from .models import Item
-from .serializers import ItemSerializer
+from .serializers import ItemSerializer, ItemDetailSerializer
 
 class ItemList(APIView):
 
@@ -37,3 +37,24 @@ class ItemDetail(APIView):
         item = self.get_object(pk)
         serializer = ItemSerializer(item)
         return Response(serializer.data)
+
+    def put(self, request, pk):
+        item = self.get_object(pk)
+        serializer = ItemDetailSerializer(
+            instance=item,
+            data=request.data,
+            partial=True
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+    
+    def delete(self, request, pk, format=None):
+        item = self.get_object(pk)
+        item.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
