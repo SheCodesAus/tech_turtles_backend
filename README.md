@@ -211,6 +211,7 @@ __Mobile Experience__
 | User\_ID (PK)      | integer   |
 | First Name         | string    |
 | Last Name          | string    |
+| Username           | string    |
 | Email (unique)     | string    |
 | Password           | string    |
 | Date created       | datetime  |
@@ -219,20 +220,24 @@ __Mobile Experience__
 | Field                   | Data Type |
 | :---------------------- | :-------- |
 | List\_ID (PK)           | integer   |
-| List Name               | string    |
+| Name                    | string    |
 | Description             | string    |
 | Budget                  | integer   |
+| Is_open                 | boolean   |
+| Date_created            | integer   |
 | User\_Id                | integer   |
 
 #### Items
 | Field                   | Data Type |
 | :---------------------- | :-------- |
 | Item\_ID (PK)           | integer   |
-| Item Name               | string    |
+| Name                    | string    |
 | Cost                    | integer   |
-| Where to buy            | URL       |
+| Where_to_buy            | string    |
 | Notes                   | string    |
 | Status (purchased   )   | boolean   |
+| Is_open                 | boolean   |
+| Date_created            | integer   |
 | Recipient\_ID           | integer   |
 
 #### Recipients
@@ -240,6 +245,8 @@ __Mobile Experience__
 | :---------------------- | :-------- |
 | Recipient\_ID (PK)      | integer   |
 | Name                    | string    |
+| Is_open                 | string    |
+| Date_created            | string    |
 | List/_ID                | integer   |
 | Code                    | string    |
 
