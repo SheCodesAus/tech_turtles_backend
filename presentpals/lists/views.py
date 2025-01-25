@@ -64,3 +64,9 @@ class ListDetail(APIView):
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
         )
+    
+    def delete(self, request, pk, format=None):
+        print("Delete method called") 
+        list = self.get_object(pk)
+        list.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
