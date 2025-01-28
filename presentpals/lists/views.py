@@ -6,14 +6,29 @@ from rest_framework import status, permissions
 from django.http import Http404
 from .models import List
 from .serializers import ListSerializer, ListDetailSerializer, RecipientSerializer
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsCreatorOrSuperuser
 
 class ListList(APIView):
     
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly, 
+        IsCreatorOrSuperuser
+    ]
 
     def get(self, request):
-        lists = List.objects.all()
+        # If the user is not authenticated return 401
+        if not request.user.is_authenticated:
+            return Response(
+                {"detail": "Authentication required."}, 
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        # If the user is authenticated and superuser, return all lists
+        if request.user.is_superuser:
+            lists = List.objects.all()
+        # If the user is authenticated, return all lists they own
+        else: 
+            lists = List.objects.filter(owner=request.user)
+
         serializer = ListSerializer(lists, many=True)
         return Response(serializer.data)
 
@@ -34,7 +49,7 @@ class ListDetail(APIView):
 
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
-        IsOwnerOrReadOnly
+        IsCreatorOrSuperuser
     ]
 
     def get_object(self, pk):
