@@ -6,10 +6,19 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from .models import CustomUser
 from .serializers import CustomUserSerializer
+from .permissions import IsCreatorOrSuperuser
 
 class CustomUserList(APIView):
 
+    permission_classes = [IsCreatorOrSuperuser]
+
     def get(self, request):
+        if not request.user.is_superuser:
+            return Response(
+                {"detail":"You do not have permission to view all users."},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
         users = CustomUser.objects.all()
         serializer = CustomUserSerializer(users, many=True)
         return Response(serializer.data)
@@ -29,11 +38,16 @@ class CustomUserList(APIView):
 
 class CustomUserDetail(APIView):
 
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly, 
+        IsCreatorOrSuperuser
+    ]
 
     def get_object(self, pk):
         try:
-            return CustomUser.objects.get(pk=pk)
+            user = CustomUser.objects.get(pk=pk)
+            self.check_object_permissions(self.request, user)
+            return user
         except CustomUser.DoesNotExist:
             raise Http404
 
