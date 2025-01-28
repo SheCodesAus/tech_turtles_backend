@@ -4,14 +4,26 @@ from rest_framework import status, permissions
 from django.http import Http404
 from .models import Recipient
 from .serializers import RecipientSerializer, RecipientDetailSerializer
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsOwnerOrReadOnly, IsCreatorOrSuperuser
 
 class RecipientList(APIView):
     
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        IsCreatorOrSuperuser
+    ]
 
     def get(self, request):
-        recipients = Recipient.objects.all()
+        if not request.user.is_authenticated:
+            return Response(
+                {"detail": "Authentication required."}, 
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        if request.user.is_superuser:
+            recipients = Recipient.objects.all()
+        else: 
+            recipients = Recipient.objects.filter(list__owner=request.user)
+        
         serializer = RecipientSerializer(recipients, many=True)
         return Response(serializer.data)
 
@@ -32,7 +44,7 @@ class RecipientDetail(APIView):
 
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
-        IsOwnerOrReadOnly
+        IsCreatorOrSuperuser
     ]
 
     def get_object(self, pk):
@@ -53,7 +65,8 @@ class RecipientDetail(APIView):
         serializer = RecipientDetailSerializer(
             instance=recipient,
             data=request.data,
-            partial=True
+            partial=True,
+            context={"request": request},
         )
         if serializer.is_valid():
             serializer.save()
