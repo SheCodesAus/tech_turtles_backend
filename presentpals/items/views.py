@@ -65,7 +65,8 @@ class ItemDetail(APIView):
         serializer = ItemDetailSerializer(
             instance=item,
             data=request.data,
-            partial=True
+            partial=True,
+            context={"request": request},
         )
         if serializer.is_valid():
             serializer.save()

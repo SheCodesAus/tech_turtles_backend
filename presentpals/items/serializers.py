@@ -9,6 +9,17 @@ class ItemSerializer(serializers.ModelSerializer):
 
 class ItemDetailSerializer(ItemSerializer):
 
+    def validate(self, data):
+        recipient_id = data.get('recipient')
+        recipient_list_id = recipient_id.list
+        request_user = self.context['request'].user
+
+        # Ensure the list's owner matches the authenticated user
+        if recipient_list_id.owner != request_user:
+            raise serializers.ValidationError("You do not own this list associated with this recipient id.")
+
+        return data
+
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
         instance.cost = validated_data.get('cost', instance.cost)
