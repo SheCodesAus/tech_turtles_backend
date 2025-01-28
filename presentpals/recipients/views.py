@@ -1,11 +1,14 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, permissions
 from django.http import Http404
 from .models import Recipient
 from .serializers import RecipientSerializer, RecipientDetailSerializer
+from .permissions import IsOwnerOrReadOnly
 
 class RecipientList(APIView):
+    
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request):
         recipients = Recipient.objects.all()
@@ -26,9 +29,16 @@ class RecipientList(APIView):
         )
 
 class RecipientDetail(APIView):
+
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        IsOwnerOrReadOnly
+    ]
+
     def get_object(self, pk):
         try:
             recipient = Recipient.objects.get(pk=pk)
+            self.check_object_permissions(self.request, recipient)
             return recipient
         except Recipient.DoesNotExist:
             raise Http404

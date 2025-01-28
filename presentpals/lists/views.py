@@ -9,6 +9,7 @@ from .serializers import ListSerializer, ListDetailSerializer, RecipientSerializ
 from .permissions import IsOwnerOrReadOnly
 
 class ListList(APIView):
+    
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request):

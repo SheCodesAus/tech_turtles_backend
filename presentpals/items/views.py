@@ -1,11 +1,14 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, permissions
 from django.http import Http404
 from .models import Item
 from .serializers import ItemSerializer, ItemDetailSerializer
+from .permissions import IsOwnerOrReadOnly
 
 class ItemList(APIView):
+    
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get(self, request):
         items = Item.objects.all()
@@ -26,9 +29,16 @@ class ItemList(APIView):
         )
 
 class ItemDetail(APIView):
+
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        IsOwnerOrReadOnly
+    ]
+
     def get_object(self, pk):
         try:
             item = Item.objects.get(pk=pk)
+            self.check_object_permissions(self.request, item)
             return item
         except Item.DoesNotExist:
             raise Http404
