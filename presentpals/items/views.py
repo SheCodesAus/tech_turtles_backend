@@ -4,14 +4,26 @@ from rest_framework import status, permissions
 from django.http import Http404
 from .models import Item
 from .serializers import ItemSerializer, ItemDetailSerializer
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsCreatorOrSuperuser
 
 class ItemList(APIView):
     
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly,
+        IsCreatorOrSuperuser
+    ]
 
     def get(self, request):
-        items = Item.objects.all()
+        if not request.user.is_authenticated:
+            return Response(
+                {"detail": "Authentication required."}, 
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        if request.user.is_superuser:
+            items = Item.objects.all()
+        else: 
+            items = Item.objects.filter(recipient__list__owner=request.user)
+        
         serializer = ItemSerializer(items, many=True)
         return Response(serializer.data)
 
@@ -32,7 +44,7 @@ class ItemDetail(APIView):
 
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
-        IsOwnerOrReadOnly
+        IsCreatorOrSuperuser
     ]
 
     def get_object(self, pk):

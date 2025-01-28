@@ -4,7 +4,7 @@ from rest_framework import status, permissions
 from django.http import Http404
 from .models import Recipient
 from .serializers import RecipientSerializer, RecipientDetailSerializer
-from .permissions import IsOwnerOrReadOnly, IsCreatorOrSuperuser
+from .permissions import IsCreatorOrSuperuser
 
 class RecipientList(APIView):
     
