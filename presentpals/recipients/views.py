@@ -4,6 +4,7 @@ from rest_framework import status, permissions
 from django.http import Http404
 from .models import Recipient
 from .serializers import RecipientSerializer, RecipientDetailSerializer
+from items.serializers import ItemSerializer, ItemDetailSerializer
 from .permissions import IsCreatorOrSuperuser
 
 class RecipientList(APIView):
@@ -81,3 +82,32 @@ class RecipientDetail(APIView):
         recipient = self.get_object(pk)
         recipient.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class SharedRecipientDetail(APIView):
+
+    def get_object(self, unique_code):
+        try:
+            recipient = Recipient.objects.get(unique_code=unique_code)
+            self.check_object_permissions(self.request, recipient)
+            return recipient
+        except Recipient.DoesNotExist:
+            raise Http404
+    
+    def get(self, request, unique_code):
+        recipient = self.get_object(unique_code)
+        serializer = RecipientDetailSerializer(recipient)
+        return Response(serializer.data)
+
+    def post(self, request, unique_code):
+        recipient = self.get_object(unique_code)
+        serializer = ItemSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(recipient=recipient)
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED
+            )
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
