@@ -4,6 +4,7 @@ from rest_framework import status, permissions
 from django.http import Http404
 from .models import Recipient
 from .serializers import RecipientSerializer, RecipientDetailSerializer
+from items.serializers import ItemSerializer, ItemDetailSerializer
 from .permissions import IsCreatorOrSuperuser
 
 class RecipientList(APIView):
@@ -96,3 +97,48 @@ class SharedRecipientDetail(APIView):
         recipient = self.get_object(unique_code)
         serializer = RecipientDetailSerializer(recipient)
         return Response(serializer.data)
+
+    def post(self, request, unique_code):
+        recipient = self.get_object(unique_code)
+        serializer = ItemSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(recipient=recipient)
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED
+            )
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    def put(self, request, unique_code, pk):
+        recipient = self.get_object(unique_code)
+        try:
+            item = Item.objects.get(pk=pk, recipient=recipient)  # Ensure the item belongs to the recipient
+        except Item.DoesNotExist:
+            raise Http404
+            
+        serializer = ItemDetailSerializer(
+            instance=item,
+            data=request.data,
+            partial=True,
+            context={"request": request},
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(
+            serializer.errors,
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    def delete(self, request, unique_code, pk):
+        recipient = self.get_object(unique_code)
+        try:
+            item = Item.objects.get(pk=pk, recipient=recipient)  # Ensure the item belongs to the recipient
+            item.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Item.DoesNotExist:
+            raise Http404
