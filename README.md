@@ -260,7 +260,7 @@ The secondary users are gift recipients, who can join in by creating their own w
 | Recipient\_ID                 | integer   |
 | Priority_order (1, 2, 3)     | integer   |
 | Delivery_status (ordered, shipped, delivered, na) | string |
-| Due_date                      | date |
+| Due_date                      | datetime |
 
 #### Recipients
 
