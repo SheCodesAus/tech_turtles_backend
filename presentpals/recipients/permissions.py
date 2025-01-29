@@ -1,7 +1,7 @@
 from rest_framework import permissions
 
 class IsCreatorOrSuperuser(permissions.BasePermission):
-    """custom permission to allow only the creator of a list to view and modify it,
+    """custom permission to allow only the creator of a list to view and modify recipients on it,
     except superusers who can access and modify all lists"""
     def has_object_permission(self, request, view, obj):
         # Superusers have full access
@@ -9,4 +9,4 @@ class IsCreatorOrSuperuser(permissions.BasePermission):
             return True
 
         # Only allow access if user is creator of list
-        return obj.owner == request.user
+        return obj.list.owner == request.user

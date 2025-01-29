@@ -12,3 +12,11 @@ class List(models.Model):
         on_delete=models.CASCADE,
         related_name='owned_lists', 
     )
+
+    @property
+    def total_cost(self):
+        """Calculate the total cost of items for this list."""
+        total = 0
+        for recipient in self.recipients.all():
+            total += recipient.items.aggregate(total_cost=models.Sum('cost'))['total_cost'] or 0
+        return total
