@@ -8,7 +8,7 @@ PRIORITY = [
 ]
 
 DELIVERY_STATUS = [
-    ('pending', 'Pending'),
+    ('ordered', 'Ordered'),
     ('shipped', 'Shipped'),
     ('delivered', 'Delivered'),
     ('na', 'Not Applicable'),
