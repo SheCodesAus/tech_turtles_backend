@@ -243,20 +243,24 @@ The secondary users are gift recipients, who can join in by creating their own w
 | Is_open                 | boolean   |
 | Date_created            | integer   |
 | User\_Id                | integer   |
+| Total_list_cost         | integer   |
 
 #### Items
 
-| Field                   | Data Type |
-| :---------------------- | :-------- |
-| Item\_ID (PK)           | integer   |
-| Name                    | string    |
-| Cost                    | integer   |
-| Where_to_buy            | string    |
-| Notes                   | string    |
-| Status (purchased   )   | boolean   |
-| Is_open                 | boolean   |
-| Date_created            | integer   |
-| Recipient\_ID           | integer   |
+| Field                         | Data Type |
+| :----------------------       | :-------- |
+| Item\_ID (PK)                 | integer   |
+| Name                          | string    |
+| Cost                          | integer   |
+| Where_to_buy                  | string    |
+| Notes                         | string    |
+| Status (complete/incomplete)  | boolean   |
+| Is_open                       | boolean   |
+| Date_created                  | integer   |
+| Recipient\_ID                 | integer   |
+| Priority_order (1, 2, 3)     | integer   |
+| Delivery_status (ordered, shipped, delivered, na) | string |
+| Due_date                      | date |
 
 #### Recipients
 
@@ -268,6 +272,7 @@ The secondary users are gift recipients, who can join in by creating their own w
 | Date_created            | string    |
 | List/_ID                | integer   |
 | Code                    | string    |
+| Total_item_count        | integer   |
 
 ### Database Schema
 
