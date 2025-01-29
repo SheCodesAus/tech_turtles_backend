@@ -3,7 +3,6 @@ from recipients.models import Recipient
 
 STATUS = [
     ('incomplete', 'Incomplete'),
-    ('in_progress', 'In Progress'),
     ('complete', 'Complete')
 ]
 class Item(models.Model):
