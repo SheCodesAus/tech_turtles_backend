@@ -4,10 +4,14 @@ from items.serializers import ItemSerializer
 
 class RecipientSerializer(serializers.ModelSerializer):
     items = ItemSerializer(many=True, read_only=True)
+    total_items = serializers.SerializerMethodField()
 
     class Meta:
         model = apps.get_model('recipients.Recipient')
         fields = '__all__'
+
+    def get_total_items(self, obj):
+        return obj.total_items
 
 class RecipientDetailSerializer(RecipientSerializer):
 
