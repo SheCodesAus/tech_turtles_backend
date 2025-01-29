@@ -6,13 +6,13 @@ from rest_framework import status, permissions
 from django.http import Http404
 from .models import List
 from .serializers import ListSerializer, ListDetailSerializer, RecipientSerializer
-from .permissions import IsCreatorOrSuperuser
+from .permissions import IsCreatorOrSuperuserOrAdmin
 
 class ListList(APIView):
     
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly, 
-        IsCreatorOrSuperuser
+        IsCreatorOrSuperuserOrAdmin
     ]
 
     def get(self, request):
@@ -23,7 +23,7 @@ class ListList(APIView):
                 status=status.HTTP_401_UNAUTHORIZED
             )
         # If the user is authenticated and superuser, return all lists
-        if request.user.is_superuser:
+        if request.user.is_superuser or request.user.is_staff:
             lists = List.objects.all()
         # If the user is authenticated, return all lists they own
         else: 
@@ -49,7 +49,7 @@ class ListDetail(APIView):
 
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
-        IsCreatorOrSuperuser
+        IsCreatorOrSuperuserOrAdmin
     ]
 
     def get_object(self, pk):

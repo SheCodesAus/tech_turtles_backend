@@ -5,13 +5,13 @@ from django.http import Http404
 from .models import Recipient
 from .serializers import RecipientSerializer, RecipientDetailSerializer
 from items.serializers import ItemSerializer, ItemDetailSerializer
-from .permissions import IsCreatorOrSuperuser
+from .permissions import IsCreatorOrSuperuserOrAdmin
 
 class RecipientList(APIView):
     
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
-        IsCreatorOrSuperuser
+        IsCreatorOrSuperuserOrAdmin
     ]
 
     def get(self, request):
@@ -20,7 +20,7 @@ class RecipientList(APIView):
                 {"detail": "Authentication required."}, 
                 status=status.HTTP_401_UNAUTHORIZED
             )
-        if request.user.is_superuser:
+        if request.user.is_superuser or request.user.is_staff:
             recipients = Recipient.objects.all()
         else: 
             recipients = Recipient.objects.filter(list__owner=request.user)
@@ -45,7 +45,7 @@ class RecipientDetail(APIView):
 
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly,
-        IsCreatorOrSuperuser
+        IsCreatorOrSuperuserOrAdmin
     ]
 
     def get_object(self, pk):
