@@ -17,10 +17,7 @@ class Recipient(models.Model):
         default = uuid.uuid4
     )
 
-    # def total_items(self):
-    #     total = sum (item.amount for recipient in self.recipients.all())
-    #     return total 
-
+    @property
     def total_items(self):
         """Calculate the total count of items for this recipient."""
         return self.items.count()
