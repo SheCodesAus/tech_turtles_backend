@@ -111,34 +111,3 @@ class SharedRecipientDetail(APIView):
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST
         )
-
-    def put(self, request, unique_code, pk):
-        recipient = self.get_object(unique_code)
-        try:
-            item = Item.objects.get(pk=pk, recipient=recipient)  # Ensure the item belongs to the recipient
-        except Item.DoesNotExist:
-            raise Http404
-            
-        serializer = ItemDetailSerializer(
-            instance=item,
-            data=request.data,
-            partial=True,
-            context={"request": request},
-        )
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-
-        return Response(
-            serializer.errors,
-            status=status.HTTP_400_BAD_REQUEST
-        )
-
-    def delete(self, request, unique_code, pk):
-        recipient = self.get_object(unique_code)
-        try:
-            item = Item.objects.get(pk=pk, recipient=recipient)  # Ensure the item belongs to the recipient
-            item.delete()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        except Item.DoesNotExist:
-            raise Http404
