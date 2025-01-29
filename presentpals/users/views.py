@@ -6,14 +6,14 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from .models import CustomUser
 from .serializers import CustomUserSerializer
-from .permissions import IsCreatorOrSuperuser
+from .permissions import IsCreatorOrSuperuserOrAdmin
 
 class CustomUserList(APIView):
 
-    permission_classes = [IsCreatorOrSuperuser]
+    permission_classes = [IsCreatorOrSuperuserOrAdmin]
 
     def get(self, request):
-        if not request.user.is_superuser:
+        if not (request.user.is_superuser or request.user.is_staff):
             return Response(
                 {"detail":"You do not have permission to view all users."},
                 status=status.HTTP_403_FORBIDDEN
@@ -40,7 +40,7 @@ class CustomUserDetail(APIView):
 
     permission_classes = [
         permissions.IsAuthenticatedOrReadOnly, 
-        IsCreatorOrSuperuser
+        IsCreatorOrSuperuserOrAdmin
     ]
 
     def get_object(self, pk):
