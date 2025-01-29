@@ -81,3 +81,18 @@ class RecipientDetail(APIView):
         recipient = self.get_object(pk)
         recipient.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class SharedRecipientDetail(APIView):
+
+    def get_object(self, unique_code):
+        try:
+            recipient = Recipient.objects.get(unique_code=unique_code)
+            self.check_object_permissions(self.request, recipient)
+            return recipient
+        except Recipient.DoesNotExist:
+            raise Http404
+    
+    def get(self, request, unique_code):
+        recipient = self.get_object(unique_code)
+        serializer = RecipientDetailSerializer(recipient)
+        return Response(serializer.data)
