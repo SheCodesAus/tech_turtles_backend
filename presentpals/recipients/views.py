@@ -29,7 +29,10 @@ class RecipientList(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = RecipientSerializer(data=request.data)
+        serializer = RecipientSerializer(
+            data=request.data,
+            context={"request": request}
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(
