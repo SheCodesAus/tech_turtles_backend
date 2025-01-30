@@ -20,7 +20,7 @@ STATUS = [
 ]
 class Item(models.Model):
     name = models.CharField(max_length=200)
-    cost = models.PositiveIntegerField()
+    cost = models.DecimalField(max_digits=10, decimal_places=2)
     where_to_buy = models.TextField(blank=True)
     notes = models.TextField(blank=True)
     priority = models.IntegerField(
