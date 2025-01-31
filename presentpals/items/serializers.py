@@ -40,9 +40,12 @@ class ItemDetailSerializer(ItemSerializer):
         instance.cost = validated_data.get('cost', instance.cost)
         instance.where_to_buy = validated_data.get('where_to_buy', instance.where_to_buy)
         instance.notes = validated_data.get('notes', instance.notes)
+        instance.priority = validated_data.get('priority', instance.priority)
+        instance.delivery_status = validated_data.get('delivery_status', instance.delivery_status)
+        instance.due_date = validated_data.get('due_date', instance.due_date)
         instance.status = validated_data.get('status', instance.status)
         instance.is_open = validated_data.get('is_open', instance.is_open)
         instance.date_created = validated_data.get('date_created', instance.date_created)
-        instance.recipient = validated_data.get('recipient', instance.recipient )
+        instance.recipient = validated_data.get('recipient', instance.recipient)
         instance.save()
         return instance
