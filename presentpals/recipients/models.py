@@ -16,3 +16,11 @@ class Recipient(models.Model):
         editable=False,
         default = uuid.uuid4
     )
+
+    @property
+    def total_items(self):
+        """Calculate the total count of items for this recipient."""
+        return self.items.count()
+
+    def __str__(self):
+        return self.name
