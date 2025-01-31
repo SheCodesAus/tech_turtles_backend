@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 class List(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    budget = models.PositiveIntegerField()
+    budget = models.DecimalField(max_digits=10, decimal_places=2)
     is_open = models.BooleanField(default=True)
     date_created = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(
