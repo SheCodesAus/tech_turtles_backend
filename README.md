@@ -154,6 +154,8 @@ We will also use Insomnia to ensure API endpoints are working smoothly (we will 
 
 [Link to Heroku deployed backend](https://presentpals-a951116525a2.herokuapp.com/users/)
 
+[Link to Netlify deployed frontend](https://presentpal.netlify.app/)
+
 ## Target Audience 👥
 
 - Gift Giver (Primary User)

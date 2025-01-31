@@ -28,7 +28,10 @@ class ItemList(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = ItemSerializer(data=request.data)
+        serializer = ItemSerializer(
+            data=request.data,
+            context={"request": request}
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(
