@@ -103,7 +103,13 @@ class SharedRecipientDetail(APIView):
 
     def post(self, request, unique_code):
         recipient = self.get_object(unique_code)
-        serializer = ItemSerializer(data=request.data)
+        serializer = ItemSerializer(
+            data=request.data,
+            context={
+                "request": request,
+                "is_shared_view": True
+            }
+        )
         if serializer.is_valid():
             serializer.save(recipient=recipient)
             return Response(

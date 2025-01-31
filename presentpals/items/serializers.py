@@ -7,15 +7,30 @@ class ItemSerializer(serializers.ModelSerializer):
         model = apps.get_model('items.Item')
         fields = '__all__'
 
+    def validate(self, data):
+        recipient = data.get('recipient')
+        request = self.context.get('request')
+        is_shared_view = self.context.get('is_shared_view', False)
+        
+        # Skip validation for SharedRecipientDetail view
+        if is_shared_view:
+            return data
+        
+        if not request or not request.user:
+            raise serializers.ValidationError("Authentication required.")
+            
+        if recipient.list.owner != request.user:
+            raise serializers.ValidationError("You can only create items for recipients in lists you own.")
+            
+        return data
+
 class ItemDetailSerializer(ItemSerializer):
 
     def validate(self, data):
-        recipient_id = data.get('recipient')
-        recipient_list_id = recipient_id.list
+        recipient = data.get('recipient')
         request_user = self.context['request'].user
 
-        # Ensure the list's owner matches the authenticated user
-        if recipient_list_id.owner != request_user:
+        if recipient and recipient.list.owner != request_user:
             raise serializers.ValidationError("You do not own this list associated with this recipient id.")
 
         return data
