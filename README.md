@@ -5,8 +5,6 @@
 ### Tech Turtles
 
 - [PresentPal](#presentpal)
-  - [Plan. Shop. Joy. 🎄✨](#plan-shop-joy-)
-    - [Tech Turtles](#tech-turtles)
   - [Project Overview 🎁](#project-overview-)
   - [Mission Statement 🔊](#mission-statement-)
   - [Features 📋](#features-)
@@ -54,6 +52,7 @@ PresentPal’s mission is to simplify holiday/event gift shopping by providing a
 - Creation of user account
 - Log in/Log out
 - Ability to create/edit/delete list
+- Add recipients to each list
 - Add item details and assign to a recipient on the list
 - Ability to update the status of individual items
 - Accessibility for colour blind users
@@ -70,13 +69,13 @@ PresentPal’s mission is to simplify holiday/event gift shopping by providing a
   
 - __User Profile Management and Permissions__
   - Users can log in or log out of their account
-  - Login page will have full name and password fields
+  - Login page will have username and password fields
   - Each user category will have their set permissions they can view
   
 - __List Page__
-  - Admin can create or delete any of the lists
+  - Admin/superusers can create or delete any of the lists
   - Users can create a list, but can only edit/delete a list they have created
-  - Has space to record and update gift details (product name, price, store/link or location)
+  - Has space to record and update gift details (product name, price, store/link)
   - Status of item (complete/incomplete)
 
 ### Nice to haves - First Priority
@@ -107,7 +106,7 @@ Provide users the ability to create lists of gifts they need to purchase. Once i
 
 | Type               | Access                                                                                                                                                                                                                                                                                             | Role type assignment                                |
 | :----------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------- |
-| Superuser or admin | - All access   <br> - Can log in and log out  <br> - Create and manage lists  <br> - Create and manage other users  <br> - Create and manage other users  <br> - Can see and edit their details via profile page  <br> - Update status of items on list  <br> - Delete a list | Private: Shelley Behen                                                |
+| Superuser or admin | - All access   <br> - Can log in and log out  <br> - Create and manage lists   <br> - Create and manage other users    <br> - Update status of items on list  <br> - Delete a list | Private: Shelley Behen                                                |
 | User      | - Can log in and can log out  <br> - Create and edit items on their list  <br> - Delete item from their list                                                                                                                                     | Public: Users who want to create a gift shopping list |
 
 ### Christmas List
@@ -115,9 +114,9 @@ Provide users the ability to create lists of gifts they need to purchase. Once i
 | Feature                                        | Access                                                                                                                                                                                                           | Notes/Conditions                                                                                              |
 | :--------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------ |
 | Create                                         | Can be created by anyone with a registered account                                                                                                                        | User must be logged in |
-| View                                           | Admin and creator of the list can view list                                                                                      |                                                                                                               |
-| Edit                                           | Admin and creator of the list can edit list                                                                                      |  User must be logged in                                                                                                             |
-| Delete                                         | Can be deleted by Admin and creator of list |                                                                                                               |
+| View                                           | Admin/superuser and creator of the list can view list                                                                                      |  User must be logged in                                                                                                             |
+| Edit                                           | Admin/superuser and creator of the list can edit list                                                                                      |  User must be logged in                                                                                                             |
+| Delete                                         | Can be deleted by admin/superuser and creator of list |  User must be logged in                                                                                                             |
 
 <br>
 
@@ -125,8 +124,7 @@ Provide users the ability to create lists of gifts they need to purchase. Once i
 
 | Endpoint                          | Functionality              | Comments          |
 | :-------------------------------- | :------------------------- | :------------------------- |
-| Create and post list              |  - Available to user who created list         | - Easy to read and accessible <br> - Good contrast |
-| Admin page |  - All admin functions <br> - Can also create another admin account        | - Requires auth <br> - Initial admin created by DB                            |
+| List page              |  - Available to user who created list <br> - Available to admin/superusers <br> - Users can edit lists         | - Easy to read and accessible <br> - Good contrast |
 | User page | - Users can view all lists created <br> - Users can create new list  |  |
 | Home page  |  - Button to create list or log in button if not logged in <br> - Description about app    |                            |
 
@@ -173,7 +171,7 @@ The secondary users are gift recipients, who can join in by creating their own w
 
 1. As a gift giver, I want to create a new gift list so that I can organise my Christmas shopping.
 2. As a gift giver, I want to add recipients to my list so that I can plan gifts for everyone.
-3. As a gift giver, I want to add gift details (name, price, store link/location, notes) so that I can track what to buy.
+3. As a gift giver, I want to add gift details (name, price, store link, notes) so that I can track what to buy.
 4. As a gift giver, I want to mark items as purchased so that I can track my shopping progress.
 5. As a gift giver, I want to see the total cost of all gifts so that I can manage my budget.
 6. As a gift giver, I want to keep the list private from each recipient so that gifts remain a surprise.
@@ -233,7 +231,10 @@ The secondary users are gift recipients, who can join in by creating their own w
 | User\_ID (PK)      | integer   |
 | First Name         | string    |
 | Last Name          | string    |
-| Username           | string    |
+| Username (unique)  | string    |
+| Is_superuser       | boolean   |
+| Is_staff           | boolean   |
+| Is_active          | boolean   |
 | Email (unique)     | string    |
 | Password           | string    |
 | Date created       | datetime  |
@@ -246,10 +247,10 @@ The secondary users are gift recipients, who can join in by creating their own w
 | Name                    | string    |
 | Description             | string    |
 | Budget                  | integer   |
+| Total_cost              | integer   |
 | Is_open                 | boolean   |
 | Date_created            | integer   |
-| User\_Id                | integer   |
-| Total_list_cost         | integer   |
+| Owner\_Id               | integer   |
 
 #### Items
 
@@ -260,13 +261,13 @@ The secondary users are gift recipients, who can join in by creating their own w
 | Cost                          | integer   |
 | Where_to_buy                  | string    |
 | Notes                         | string    |
+| Priority_order (1, 2, 3)      | integer   |
+| Delivery_status (ordered, shipped, delivered, na) | string |
 | Status (complete/incomplete)  | boolean   |
+| Due_date                      | datetime  |
 | Is_open                       | boolean   |
 | Date_created                  | integer   |
 | Recipient\_ID                 | integer   |
-| Priority_order (1, 2, 3)     | integer   |
-| Delivery_status (ordered, shipped, delivered, na) | string |
-| Due_date                      | datetime |
 
 #### Recipients
 
@@ -277,8 +278,8 @@ The secondary users are gift recipients, who can join in by creating their own w
 | Is_open                 | string    |
 | Date_created            | string    |
 | List/_ID                | integer   |
-| Code                    | string    |
-| Total_item_count        | integer   |
+| UUID code               | string    |
+| Total_items             | integer   |
 
 ### Database Schema
 
